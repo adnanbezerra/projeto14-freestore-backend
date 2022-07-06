@@ -8,5 +8,5 @@ const MONGO = process.env.MONGO_CONNECTION;
 const mongoClient = new MongoClient(MONGO)
 await mongoClient.connect();
 
-const db = mongoClient.db("mywallet")
+const db = mongoClient.db("freestore")
 export default db;
