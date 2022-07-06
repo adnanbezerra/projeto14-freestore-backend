@@ -3,9 +3,10 @@ import joi from 'joi';
 function validateRegisterData(req, res, next) {
 
     const validationSchema = joi.object({
-        name: joi.string().required(),
-        email: joi.string().email().required(),
-        password: joi.string().required()
+        name: joi.string().trim().required(),
+        email: joi.string().trim().email().required(),
+        profilePicture: joi.string().uri().required().allow(''),
+        password: joi.string().trim().required()
     })
 
     const validate = validationSchema.validate(req.body);
