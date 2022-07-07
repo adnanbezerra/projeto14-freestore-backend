@@ -3,8 +3,8 @@ import db from '../database/mongodb.js'
 
 export async function postLogin(req, res) {
     const user = res.locals.user;
-    const token = res.locals.token;
-    res.send({...user, token}).status(201);
+    const { token, refreshToken } = res.locals;
+    res.send({...user, token, refreshToken }).status(201);
 }
 
 export async function postRegister(req, res) {
