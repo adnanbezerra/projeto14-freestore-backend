@@ -11,7 +11,7 @@ function validateRegisterData(req, res, next) {
 
     const validate = validationSchema.validate(req.body);
 
-    if(validate.error) return res.sendStatus(422);
+    if(validate.error) return res.status(422).send(validate.error);
 
     next()
 }
