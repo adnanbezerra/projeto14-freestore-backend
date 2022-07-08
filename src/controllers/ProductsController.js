@@ -21,4 +21,23 @@ async function getProduct(req, res) {
     res.status(200).send(product)
 }
 
-export { getProducts, getProduct }
+async function updateProduct(req, res) {
+    const { quantity } = req.body
+    const { id } = req.params
+
+    try {
+        const productFounded = await db.collection('products').findOne({ _id: ObjectId(id) })
+
+        if(productFounded === null) {
+            return res.sendStatus(404)
+        }
+
+        await db.collection('products').updateOne({ _id: ObjectId(id) }, { $set: { quantity } })
+
+        res.sendStatus(200)
+    } catch(err) {
+        res.status(500).send(err)
+    }
+}
+
+export { getProducts, getProduct, updateProduct }

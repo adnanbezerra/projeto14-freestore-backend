@@ -1,6 +1,6 @@
 import { cartSchema } from "../validations/cartSchema.js"
 
-async function validatideCartSchema(req, res, next) {
+async function validateCartSchema(req, res, next) {
     if(!req.body.cartLocal) {
         const { error } = cartSchema.validate(req.body, { abortEarly: false })
     
@@ -12,4 +12,4 @@ async function validatideCartSchema(req, res, next) {
     next()
 }
 
-export { validatideCartSchema }
+export { validateCartSchema }
