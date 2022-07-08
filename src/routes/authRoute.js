@@ -1,15 +1,20 @@
 import { Router } from 'express';
-import { postLogin, postRegister } from '../controllers/AuthController.js';
+import { getUsers, postLogin, postRegister, putRegister } from '../controllers/AuthController.js';
 import validateLoginData from '../middlewares/validateLoginData.js';
 import validateLoginPassword from '../middlewares/validateLoginPassword.js';
 import validateRegisterData from '../middlewares/validateRegisterData.js';
+import { validateToken } from '../middlewares/validateToken.js';
+import validateUpdatePassword from '../middlewares/validateUpdatePassword.js';
 import validateUserNotExistant from '../middlewares/validateUserNotExistant.js';
+import validateUserUpdateData from '../middlewares/validateUserUpdateData.js';
 
 const router = Router();
 
 router.post('/login', validateLoginData, validateLoginPassword, postLogin);
 router.post('/register', validateRegisterData, validateUserNotExistant, postRegister);
-router.delete('/logout')
-router.put('/register')
+router.put('/register', validateUserUpdateData, validateUpdatePassword, validateToken, putRegister);
+
+// That's a test route
+router.get('/users', getUsers);
 
 export default router;

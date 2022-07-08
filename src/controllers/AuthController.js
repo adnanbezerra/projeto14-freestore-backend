@@ -4,7 +4,11 @@ import db from '../database/mongodb.js'
 export async function postLogin(req, res) {
     const user = res.locals.user;
     const { token, refreshToken } = res.locals;
-    res.send({...user, token, refreshToken }).status(201);
+
+    let response = { ...user, token, refreshToken };
+    delete response.password;
+
+    res.send(response).status(201);
 }
 
 export async function postRegister(req, res) {
@@ -12,6 +16,22 @@ export async function postRegister(req, res) {
 
     const hashedPassword = bcrypt.hashSync(newRegister.password, 10);
 
-    await db.collection('users').insertOne({...newRegister, password: hashedPassword});
+    await db.collection('users').insertOne({ ...newRegister, password: hashedPassword });
     res.sendStatus(201);
+}
+
+export async function putRegister(req, res) {
+    const newInfos = req.body;
+    const { userInfo } = newInfos;
+
+    await db.collection('users').updateOne({
+        email: userInfo.email
+    }, { $set: { name: userInfo.name, email: userInfo.email, profilePicture: userInfo.profilePicture } });
+
+    res.sendStatus(200);
+}
+
+export async function getUsers(req, res) {
+    const usersArray = await db.collection('users').find().toArray();
+    res.send(usersArray).status(200);
 }
