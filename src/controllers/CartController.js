@@ -6,6 +6,7 @@ async function insertToCart(req, res) {
     const { cartId } = req.params
     const { userId } = res.locals
     const cart = { userId, productsOnCart: [productsOnCart] }
+    const toCart = productsOnCart.cartLocal ? productsOnCart.cartLocal : [productsOnCart]
 
     try { 
         if(cartId === undefined) {
@@ -14,7 +15,7 @@ async function insertToCart(req, res) {
             await db.collection('carts').updateOne(
                 { _id: ObjectId(cartId)}, 
                 { $push: { 
-                    productsOnCart: { $each: productsOnCart } 
+                    productsOnCart: { $each: [...toCart] } 
                 } }
             )
         }
@@ -34,7 +35,7 @@ async function verifyUserCart(req, res) {
         return res.status(200).json(null)
     }
 
-    res.status(200).send(userCartOpened.productsOnCart)
+    res.status(200).send(userCartOpened)
 }
 
 export { insertToCart, verifyUserCart }
