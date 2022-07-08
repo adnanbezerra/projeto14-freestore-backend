@@ -2,9 +2,9 @@ import { ObjectId } from "mongodb"
 import db from "../database/mongodb.js"
 
 async function insertToCart(req, res) {
-    const { productsOnCart } = req.body
+    const productsOnCart = req.body
     const { cartId } = req.params
-    const { userId } = req.locals
+    const { userId } = res.locals
     const cart = { userId, productsOnCart: [productsOnCart] }
 
     try { 

@@ -8,22 +8,20 @@ async function validateToken(req, res, next) {
 
     const secretKey = process.env.SECRET_KEY
     const refreshKey = process.env.REFRESH_KEY
-    
-    let decodedRefresh;
 
     try {
-        await jwt.verify(token, secretKey)
+        const decoded = await jwt.verify(token, secretKey)
+
+        res.locals.userId = decoded._id
     } catch (err) {
         try {
-            decodedRefresh = await jwt.verify(refreshToken, refreshKey)
+            const decodedRefresh = await jwt.verify(refreshToken, refreshKey)
 
             const user = await db.collection('users').findOne({ _id: ObjectId(decodedRefresh._id) })
 
             if(user === null) {
                 return res.status(404).send('usuario deletado ou não existe')
             }
-
-            res.locals.userId = user._id
 
             const newToken = jwt.sign(user, secretKey, { expiresIn: '1h' })
 
