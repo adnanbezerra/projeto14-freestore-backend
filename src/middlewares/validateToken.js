@@ -18,6 +18,13 @@ async function validateToken(req, res, next) {
             decodedRefresh = await jwt.verify(refreshToken, refreshKey)
 
             const user = await db.collection('users').findOne({ _id: ObjectId(decodedRefresh._id) })
+
+            if(user === null) {
+                return res.status(404).send('usuario deletado ou não existe')
+            }
+
+            res.locals.userId = user._id
+
             const newToken = jwt.sign(user, secretKey, { expiresIn: '1h' })
 
             return res.status(401).send({ err, newToken })
