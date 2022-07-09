@@ -11,10 +11,10 @@ async function getProducts(req, res) {
 
 async function getProduct(req, res) {
     const id = req.params.id
-    
+
     const product = await db.collection('products').findOne({ _id: ObjectId(id) })
 
-    if(product === null) {
+    if (product === null) {
         return res.sendStatus(404)
     }
 
@@ -28,16 +28,30 @@ async function updateProduct(req, res) {
     try {
         const productFounded = await db.collection('products').findOne({ _id: ObjectId(id) })
 
-        if(productFounded === null) {
+        if (productFounded === null) {
             return res.sendStatus(404)
         }
 
         await db.collection('products').updateOne({ _id: ObjectId(id) }, { $set: { quantity } })
 
         res.sendStatus(200)
-    } catch(err) {
+    } catch (err) {
         res.status(500).send(err)
     }
 }
 
-export { getProducts, getProduct, updateProduct }
+async function postNewProduct(req, res) {
+
+    try {
+        const newProduct = req.body;
+        await db.collection('products').insertOne(newProduct);
+
+        res.sendStatus(201)
+    } catch (error) {
+        res.status(500).send(err);
+
+    }
+
+}
+
+export { getProducts, getProduct, updateProduct, postNewProduct }
