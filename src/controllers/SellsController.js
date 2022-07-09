@@ -7,7 +7,7 @@ async function registerSell(req, res) {
     try {
         const { error } = sellSchema.validate(sell, { abortEarly: false })
 
-        if(error) {
+        if (error) {
             return res.status(422).send(error)
         }
 
@@ -19,4 +19,17 @@ async function registerSell(req, res) {
     }
 }
 
-export { registerSell }
+async function getSell(req, res) {
+
+    const id = req.body;
+
+    try {
+        const sells = await db.collection('sells').find({ id }).toArray();
+        res.status(200).send(sells);
+
+    } catch (err) {
+        res.status(500).send(err)
+    }
+}
+
+export { registerSell, getSell }
