@@ -69,4 +69,12 @@ async function deleteCartProduct(req, res) {
     res.sendStatus(200)
 }
 
-export { insertToCart, verifyUserCart, deleteCartProduct }
+async function deleteAllUserCart(req, res) {
+    const { userId } = req.params
+
+    await db.collection('carts').deleteOne({ userId })
+
+    res.sendStatus(200)
+}
+
+export { insertToCart, verifyUserCart, deleteCartProduct, deleteAllUserCart }
