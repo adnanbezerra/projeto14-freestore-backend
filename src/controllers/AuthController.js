@@ -33,5 +33,15 @@ export async function putRegister(req, res) {
 
 export async function getUsers(req, res) {
     const usersArray = await db.collection('users').find().toArray();
-    res.send(usersArray).status(200);
+    let usersWithProducts = []
+
+    for(let i = 0; i < usersArray.length; i++) {
+        let userHaveProducts = await db.collection('products').findOne({ sellerId: usersArray[i]._id.toString() })
+
+        if(userHaveProducts) {
+            usersWithProducts.push(usersArray[i])
+        }
+    }
+
+    res.send(usersWithProducts).status(200);
 }
