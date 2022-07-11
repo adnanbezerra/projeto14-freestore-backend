@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getUsers, postLogin, postRegister, putRegister } from '../controllers/AuthController.js';
+import { getUsers, postLogin, postRegister, putRegister, emailResetPassword, resetPassword } from '../controllers/AuthController.js';
 import validateLoginData from '../middlewares/validateLoginData.js';
 import validateLoginPassword from '../middlewares/validateLoginPassword.js';
 import validateRegisterData from '../middlewares/validateRegisterData.js';
@@ -12,7 +12,9 @@ const router = Router();
 
 router.post('/login', validateLoginData, validateLoginPassword, postLogin);
 router.post('/register', validateRegisterData, validateUserNotExistant, postRegister);
-router.put('/register', validateUserUpdateData, validateUpdatePassword, validateToken, putRegister);
+router.put('/register', validateUserUpdateData, validateUpdatePassword, validateUserNotExistant, validateToken, putRegister);
+router.post('/email-reset-password', emailResetPassword)
+router.post('/reset-password', resetPassword)
 
 // That's a test route
 router.get('/users', getUsers);
