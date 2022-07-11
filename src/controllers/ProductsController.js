@@ -8,16 +8,20 @@ async function getProducts(req, res) {
     if(category) {
         products = await db.collection('products').find({ category }).toArray()
     } else if(name) {
-        products = await db.collection('products').aggregate([
-            { $project: 
-                { 
-                    name: { $toLower: "$name" }, 
-                    images: "$images", 
-                    category: "$category",
-                    price: "$price"
-                }
-            } 
-        ]).match({ name: { $regex: name } }).toArray()
+        if(name === 'all') {
+            products = await db.collection('products').find().toArray()
+        } else {
+            products = await db.collection('products').aggregate([
+                { $project: 
+                    { 
+                        name: { $toLower: "$name" }, 
+                        images: "$images", 
+                        category: "$category",
+                        price: "$price"
+                    }
+                } 
+            ]).match({ name: { $regex: name } }).toArray()
+        }
     } else {
         products = await db.collection('products').find().toArray()
     }   
