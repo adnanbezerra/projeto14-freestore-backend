@@ -2,8 +2,8 @@ import { ObjectId } from "mongodb"
 import db from "../database/mongodb.js"
 
 async function getProducts(req, res) {
-    const { category, name } = req.query
-    let products;
+    const { category, name, sellerId } = req.query
+    let products = [];
 
     if(category) {
         products = await db.collection('products').find({ category }).toArray()
@@ -22,6 +22,8 @@ async function getProducts(req, res) {
                 } 
             ]).match({ name: { $regex: name } }).toArray()
         }
+    } else if(sellerId) {
+        products = await db.collection('products').find({ sellerId }).toArray()
     } else {
         products = await db.collection('products').find().toArray()
     }   
