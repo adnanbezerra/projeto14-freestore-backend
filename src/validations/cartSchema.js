@@ -4,6 +4,7 @@ const cartSchema = joi.object({
     _id: joi.string().required(),
     name: joi.string().required(),
     seller: joi.string().required(),
+    sellerId: joi.string().required(),
     description: joi.string().required(),
     images: joi.array().required(),
     price: joi.number().required(),
