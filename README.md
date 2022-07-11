@@ -1,4 +1,4 @@
-# Projeto 14 - FreeStore - Back-end
+# FreeStore Project - Back-end
 
 ## What is it?
 That's the second fullstack project created in the Driven Education web development bootcamp.
