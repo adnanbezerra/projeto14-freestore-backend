@@ -68,9 +68,9 @@ async function postNewProduct(req, res) {
         const newProduct = req.body;
         await db.collection('products').insertOne(newProduct);
 
-        res.sendStatus(201)
+        res.sendStatus(201);
     } catch (error) {
-        res.status(500).send(err);
+        res.status(500).send(error);
 
     }
 
