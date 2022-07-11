@@ -7,6 +7,7 @@ function validateProductData(req, res, next) {
     const validationSchema = joi.object({
         name: joi.string().required(),
         seller: joi.string().required(),
+        sellerId: joi.string().number(),
         description: joi.string().required(),
         price: joi.number().required(),
         category: joi.string().valid('Esportes', 'Roupas', 'Moveis', 'Cosmeticos', 'Eletronicos', 'Livros', 'Brinquedos', 'Eletrodomesticos').required(),
