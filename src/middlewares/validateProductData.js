@@ -9,9 +9,9 @@ function validateProductData(req, res, next) {
         seller: joi.string().required(),
         description: joi.string().required(),
         price: joi.number().required(),
-        category: joi.string().valid(['Esportes', 'Roupas', 'Moveis', 'Cosmeticos', 'Eletronicos', 'Livros', 'Brinquedos', 'Eletrodomesticos']).required(),
+        category: joi.string().valid('Esportes', 'Roupas', 'Moveis', 'Cosmeticos', 'Eletronicos', 'Livros', 'Brinquedos', 'Eletrodomesticos').required(),
         quantity: joi.number().required(),
-        images: joi.array(joi.string()).required()
+        images: joi.array().required()
     })
 
     const validate = validationSchema.validate(newProduct);
