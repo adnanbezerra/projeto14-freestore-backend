@@ -2,9 +2,29 @@ import { ObjectId } from "mongodb"
 import db from "../database/mongodb.js"
 
 async function getProducts(req, res) {
-    const category = req.query.category
+    const { category, name } = req.query
+    let products;
 
-    const products = await db.collection('products').find(category ? { category } : '').toArray()
+    if(category) {
+        products = await db.collection('products').find({ category }).toArray()
+    } else if(name) {
+        if(name === 'all') {
+            products = await db.collection('products').find().toArray()
+        } else {
+            products = await db.collection('products').aggregate([
+                { $project: 
+                    { 
+                        name: { $toLower: "$name" }, 
+                        images: "$images", 
+                        category: "$category",
+                        price: "$price"
+                    }
+                } 
+            ]).match({ name: { $regex: name } }).toArray()
+        }
+    } else {
+        products = await db.collection('products').find().toArray()
+    }   
 
     res.status(200).send(products)
 }
