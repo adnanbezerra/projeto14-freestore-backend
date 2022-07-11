@@ -13,7 +13,7 @@ async function validateLoginPassword(req, res, next) {
 
     if(user && bcrypt.compareSync(login.password, user.password)) {
 
-        const config = { expiresIn: '1h' }
+        const config = { expiresIn: '1s' }
         const refreshConfig = { expiresIn: '1y' }
 
         const token = jwt.sign(user, secretKey, config);

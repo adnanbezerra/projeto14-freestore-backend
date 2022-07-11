@@ -20,11 +20,10 @@ async function registerSell(req, res) {
 }
 
 async function getSell(req, res) {
-
-    const id = req.body;
+    const { userId } = res.locals
 
     try {
-        const sells = await db.collection('sells').find({ id }).toArray();
+        const sells = await db.collection('sells').find({ userId }).toArray();
         res.status(200).send(sells);
 
     } catch (err) {
