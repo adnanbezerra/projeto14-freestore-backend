@@ -18,3 +18,7 @@ it allows you to sell and buy basically whatever you want.
 - MongoDB Atlas
 - SendGrid email
 - And a lot more!
+
+## Authors
+- [Adnan Medeiros Bezera](https://github.com/adnanbezerra)
+- [Daniel Lucas Ederli](https://github.com/DanielL29)
