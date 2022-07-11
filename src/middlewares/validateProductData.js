@@ -16,7 +16,7 @@ function validateProductData(req, res, next) {
 
     const validate = validationSchema.validate(newProduct);
 
-    if(validate.error) return res.send(validate.error).status(422);
+    if(validate.error) return res.status(422).send(validate.error);
 
     next();
 }
